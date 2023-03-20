@@ -1,22 +1,41 @@
 <table class="table table-stripped">
-  <thead>
+  <thead class="center" >
     <th>Id</th>
     <th>Title</th>
     <th>Detail</th>
     <th>Start Date</th>
     <th>Deadline Date</th>
     <th>Status</th>
+    <th>Manage</th>
   </thead>
   <tbody>
     <ng-container *ngIf="TasksFetched">
-      <tr *ngFor="let Task of TasksFetched; let i=index" >
+       <ng-container  *ngFor="let Task of TasksFetched; let i=index">
+        <tr class="center" [ngClass]="editToggle?'editEnable':'editDisable'">
+        <ng-container *ngIf="!editToggle"> 
         <td>{{i+1}}</td>
         <td>{{Task.taskTitle|titlecase}}</td>
         <td>{{Task.taskDetail|titlecase}}</td>
         <td>{{Task.taskStarting|titlecase}}</td>
         <td>{{Task.taskDeadline|titlecase}}</td>
         <td></td>
-      </tr>
+        <td><button class="gears" (click)="editTasks()">⚙️</button>&nbsp;Edit</td>
+        </ng-container>
+        <ng-container *ngIf="editToggle">
+          <td class="center" >{{i+1}}</td>
+          <td class="center" ><input class="center field " type=text value="{{Task.taskTitle|titlecase}}"  >  </td>
+          <td class="center" ><input class="center field " type=text value="{{Task.taskDetail|titlecase}}" > </td>
+          <td class="center" ><input class="center field" type=date value="{{Task.taskStarting|titlecase}}"></td>
+          <td class="center" ><input class="center field" type=date value='{{Task.taskDeadline|titlecase}}'></td>
+          <td class="center" >
+          <select *ngFor="let Buttons of taskStatuses">
+            <option value="{{Buttons.value}}" [selected]="taskStatus?taskS">{{Buttons.name}</option>
+          </select></td>
+          <td class="center" ><button class="gears" (click)="editTasks()">⚙️</button>&nbsp;Edit</td>
+        </ng-container>
+        </tr>
+        </ng-container>
+
     </ng-container>
   </tbody>
 </table>

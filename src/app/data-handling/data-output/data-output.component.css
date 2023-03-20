@@ -1,0 +1,21 @@
+.gears{
+    border: none;
+    background-color: transparent;
+
+}
+.editEnable{
+    background-color:lightgoldenrodyellow;
+};
+
+.editDisable{
+    background-color: transparent;
+}
+.center{
+    text-align: center;
+}
+.field{
+    background-color: transparent;
+    width:100%;
+    height:100%;
+    border:none
+}
