@@ -1,0 +1,18 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">{{title|titlecase}}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Dashboard</a>
+      </li>
+    </ul>
+  </div>
+  <ng-container class="nav-item mx-auto">
+  <div class="popuptext" *ngIf="display"[ngClass]="Notification.success?'btn btn-success popup popupLoad'
+  :'btn btn-warning popup popupLoad'">{{Notification.message}}</div>
+  </ng-container>
+</nav>
+<router-outlet></router-outlet>

@@ -1,0 +1,30 @@
+<div class='form-center'>
+<form class="form " [formGroup]="InputTasks" (ngSubmit)="Post()">
+<div form-control-row form-center class="border" >
+<br>
+<div class="form-control-col form-center title">Input Tasks</div>
+<br>
+<div class="form-control-col form-center">
+  <input type="text" placeholder="Task Title !" class="field" formControlName="taskTitle"></div>
+<br>
+<div class="form-control-col form-center">
+  <textarea placeholder="Task Details " class="field" formControlName="taskDetail"></textarea>
+</div>
+<div class="form-control-col form-center">
+  <input type="file" class="field file" style="width: 208px;margin-top: 10px;" formControlName="taskAttachment" (change)='readFileSize($event)'>
+</div>
+<br>
+<div class="form-control-col form-center">
+  <input type="text" disabled placeholder="Starting" style="width:70px; text-align: center;">
+  <input type="date" placeholder="Start Date" class="field" formControlName="taskStarting" ></div>
+<br>
+<div class="form-control-col form-center">
+  <input type="text" disabled placeholder="Deadline" style="width:70px; text-align: center;">
+  <input type="date" placeholder="Deadline" class="field" formControlName="taskDeadline"></div>
+<br>
+<div class="form-control-col form-center">
+  <button class='btn btn-success' type='submit'>Submit</button></div>
+</div>
+
+</form>
+</div>

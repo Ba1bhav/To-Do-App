@@ -1,0 +1,22 @@
+<table class="table table-stripped">
+  <thead>
+    <th>Id</th>
+    <th>Title</th>
+    <th>Detail</th>
+    <th>Start Date</th>
+    <th>Deadline Date</th>
+    <th>Status</th>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="TasksFetched">
+      <tr *ngFor="let Task of TasksFetched; let i=index" >
+        <td>{{i+1}}</td>
+        <td>{{Task.taskTitle|titlecase}}</td>
+        <td>{{Task.taskDetail|titlecase}}</td>
+        <td>{{Task.taskStarting|titlecase}}</td>
+        <td>{{Task.taskDeadline|titlecase}}</td>
+        <td></td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
