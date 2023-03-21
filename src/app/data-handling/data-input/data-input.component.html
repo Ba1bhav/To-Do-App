@@ -9,7 +9,7 @@
         <span *ngIf="InputTasks.invalid && ErrorToggle" class="field"
           style="color: red;">Fields Are Neccessary</span>
       </div>
-      <div class="form-control-col form-center">
+      <div *ngIf="Update" class="form-control-col form-center">
         <img class="image" [src]="this.DataPassed.taskAttachment">
       </div>
       <br>

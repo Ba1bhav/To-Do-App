@@ -8,8 +8,21 @@ import { ToastrService } from 'src/app/toastr.service';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent {
-Sign_Up() {this.httpHandler.SignUp(this.SignUpForm).subscribe((response:any)=>{this.toastr.emitSuccess(String(response));console.log(response)},
-(Error:any)=>this.toastr.emitSuccess(String(Error)))
+Sign_Up() {
+  this.httpHandler.SignUp(this.SignUpForm.value)
+  .subscribe((response:any)=>
+  { console.log(response.token);
+
+    this.toastr.emitSuccess('SignUp Success !');
+    localStorage.setItem('token',response?.token)},
+  (Error:any)=>{
+    if(Error?.error?.error){
+    this.toastr.emitError(Error?.error?.error)}
+      else{
+        this.toastr.emitError('Some Error Occurred')
+      }
+  }
+  )
 }
   SignUpForm:any;
   constructor(private toastr:ToastrService,private httpHandler:RequestsHandlerService){

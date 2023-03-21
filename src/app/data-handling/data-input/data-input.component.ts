@@ -27,8 +27,6 @@ export class DataInputComponent {
     private toastr: ToastrService,
     private httpHandler: RequestsHandlerService
   ) { this.Updateid=this._router.getCurrentNavigation()?.extras.state?.['data'].id;
-    console.log(this.Updateid);
-
     // console.log(routeManager.url.subscribe((Response)=>console.log(Response[0].path)))
     if (this._router.getCurrentNavigation()?.extras.state?.['status']) {
       this.DataPassed =this._router.getCurrentNavigation()?.extras.state?.['data'].data;
@@ -54,7 +52,6 @@ export class DataInputComponent {
       (Response) => (ActivatedPath = Response[0].path)
     );
     if (ActivatedPath === 'AddTasks') {
-      console.log('Add Task')
       this.InputTasks = new FormGroup({
         taskTitle: new FormControl('', Validators.required),
         taskDetail: new FormControl('', Validators.required),
@@ -100,7 +97,6 @@ export class DataInputComponent {
           });
         });
     }
-    console.log(this.InputTasks.value);
   }
   readFileSize(FileEvent: any) {
     console.log('data:',FileEvent.srcElement.files)
@@ -109,7 +105,6 @@ export class DataInputComponent {
       FileEvent.srcElement.files[0] = null;
     } else {
       this.httpHandler.image2base64(FileEvent.srcElement.files[0]).then((response)=>{
-        console.log(response);
         this.img2Base64=response;
         this.toastr.emitSuccess('File Validation Success');
       })
