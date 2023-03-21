@@ -1,0 +1,29 @@
+.form-center{
+  display: flex;
+  justify-content: center;
+}
+.field{
+  text-align: center;
+}
+.border{
+min-width:400px;
+min-height: 500px;
+height: auto;
+width: auto;
+}
+.file{
+  border: solid;
+  border-width: thin;
+  border-color: darkgrey;
+  border-radius: 2px;
+}
+input[type="file"]::-webkit-file-upload-button{
+  background-color: transparent;
+  border-width: thin;
+  /* width:70px; */
+  /* color: transparent; */
+}
+.title{
+  font-weight: bold;
+  font-size: 40px;
+}

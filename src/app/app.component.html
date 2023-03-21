@@ -6,7 +6,10 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Dashboard</a>
+        <a class="nav-link" routerLink="/Dashboard">Dashboard</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/AddTasks">Add Tasks</a>
       </li>
     </ul>
   </div>
@@ -15,4 +18,5 @@
   :'btn btn-warning popup popupLoad'">{{Notification.message}}</div>
   </ng-container>
 </nav>
+<hr>
 <router-outlet></router-outlet>

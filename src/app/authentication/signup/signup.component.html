@@ -1,1 +1,37 @@
-<p>signup works!</p>
+<div class='form-center'>
+    <form class="form" [formGroup]="SignUpForm" (ngSubmit)="Sign_Up()">
+      <div form-control-row form-center class="border">
+        <br>
+        <div class="form-control-col form-center title">Sign Up</div>
+        <br>
+        <div class="form-control-col form-center">
+          <span *ngIf="" class="field"
+            style="color: red;">Fields Are Neccessary</span>
+        </div>
+        <div class="form-control-col form-center">
+          <input type="text" disabled placeholder="Username" style="width:100px; text-align: center;">
+          <input type="text" placeholder="Rawat*9" class="field" formControlName="username">
+        </div>
+        <br>
+        <div class="form-control-col form-center">
+          <input type="text" disabled placeholder="Email" style="width:100px; text-align: center;">
+          <input type="email"  placeholder="test@chicmic.in" class="field" formControlName="email">
+        </div>
+        <br>
+        <div class="form-control-col form-center">
+          <input type="text" disabled placeholder="Mobile No." style="width:100px; text-align: center;">
+          <input type="text" placeholder="98xxxxxxxx" class="field" formControlName="mobile">
+        </div>
+        <br>
+        <div class="form-control-col form-center">
+          <input type="text" disabled placeholder="Password" style="width:100px; text-align: center;">
+          <input type="password" placeholder="Password" class="field" formControlName="password">
+        </div>
+        <br>
+        <div class="form-control-col form-center">
+          <button class='btn btn-success' type='submit'>Sign Up</button>
+        </div>
+        </div>
+    </form>
+</div>
+

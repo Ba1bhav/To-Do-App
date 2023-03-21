@@ -3,6 +3,10 @@
     background-color: transparent;
 
 }
+.image{
+  width:50px;
+  height:30px;
+}
 .editEnable{
     background-color:lightgoldenrodyellow;
 };

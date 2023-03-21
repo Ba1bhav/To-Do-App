@@ -3,6 +3,7 @@
     <th>Id</th>
     <th>Title</th>
     <th>Detail</th>
+    <th>Attachment</th>
     <th>Start Date</th>
     <th>Deadline Date</th>
     <th>Status</th>
@@ -10,28 +11,39 @@
   </thead>
   <tbody>
     <ng-container *ngIf="TasksFetched">
-       <ng-container  *ngFor="let Task of TasksFetched; let i=index">
-        <tr class="center" [ngClass]="editToggle?'editEnable':'editDisable'">
-        <ng-container *ngIf="!editToggle"> 
-        <td>{{i+1}}</td>
+       <ng-container  *ngFor="let Task of TasksFetched; let id=index">
+        <tr class="center" [ngClass]="editToggle[id]===1?'editEnable':'editDisable'">
+        <ng-container *ngIf="editToggle[id]==0">
+        <td>{{id+1}}</td>
         <td>{{Task.taskTitle|titlecase}}</td>
         <td>{{Task.taskDetail|titlecase}}</td>
+        <td><img class="image" alt="Not Image"  [src]="Task.taskAttachment"></td>
         <td>{{Task.taskStarting|titlecase}}</td>
         <td>{{Task.taskDeadline|titlecase}}</td>
-        <td></td>
-        <td><button class="gears" (click)="editTasks()">⚙️</button>&nbsp;Edit</td>
-        </ng-container>
-        <ng-container *ngIf="editToggle">
-          <td class="center" >{{i+1}}</td>
-          <td class="center" ><input class="center field " type=text value="{{Task.taskTitle|titlecase}}"  >  </td>
-          <td class="center" ><input class="center field " type=text value="{{Task.taskDetail|titlecase}}" > </td>
-          <td class="center" ><input class="center field" type=date value="{{Task.taskStarting|titlecase}}"></td>
-          <td class="center" ><input class="center field" type=date value='{{Task.taskDeadline|titlecase}}'></td>
-          <td class="center" >
-          <select *ngFor="let Buttons of taskStatuses">
-            <option value="{{Buttons.value}}" [selected]="taskStatus?taskS">{{Buttons.name}</option>
+        <td class="center" >
+          <select>
+            <ng-container *ngFor="let Button of taskStatuses">
+            <option value="{{Button.value}}" *ngIf="Task.taskStatus" [selected]="Task.taskStatus===Button.value">{{Button.name}}</option>
+            <option value="{{Button.value}}" *ngIf="!Task.taskStatus&&Button.value===0" [selected]="Button.value===0">{{Button.name}}</option>
+          </ng-container>
           </select></td>
-          <td class="center" ><button class="gears" (click)="editTasks()">⚙️</button>&nbsp;Edit</td>
+        <td><button class="gears" (click)="editTasks(id)">⚙️ Edit</button>
+            <button style="font-weight: bold;" class="gears" (click)="redirectRoute(id)">Edit</button><span>&nbsp;</span>
+            <button class="gears" (click)="deleteTasks(id)" style="font-weight: bold;">Delete</button></td>
+        </ng-container>
+        <ng-container *ngIf="editToggle[id]==1">
+          <td class="center" >{{id+1}}</td>
+          <td class="center" ><input class="center field " type=text value="{{Task.taskTitle|titlecase}}"    (change)="dataChanged('taskTitle',$event.target,Task.taskTitle,id)"    ></td>
+          <td class="center" ><input class="center field " type=text value="{{Task.taskDetail|titlecase}}"   (change)="dataChanged('taskDetail',$event.target,Task.taskDetail,id)"  ></td>
+          <td class="center" ><input class="center field" type=date value="{{Task.taskStarting|titlecase}}"  (change)="dataChanged('taskStarting',$event.target,Task.taskStarting,id)"  ></td>
+          <td class="center" ><input class="center field" type=date value='{{Task.taskDeadline|titlecase}}'  (change)="dataChanged('taskEnding',$event.target,Task.taskDeadline,id)" ></td>
+          <td class="center" >
+          <select class="center field" (change)="dataChanged('taskStatus',$event.target,Task.taskDeadline,id)">
+            <ng-container *ngFor="let Button of taskStatuses">
+            <option value="{{Button.value}}" [selected]="Task.taskStatus?Task.taskStatus===Button.value:Button.value===0">{{Button.name}}</option>
+          </ng-container>
+          </select></td>
+          <td class="center" ><button class="gears" (click)="editTasks(id)">⚙️&nbsp;Close Edit</button></td>
         </ng-container>
         </tr>
         </ng-container>
