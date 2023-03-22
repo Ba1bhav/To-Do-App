@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { RequestsHandlerService } from 'src/app/requests-handler.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpHeaders } from '@angular/common/http';
 @Component({
   selector: 'app-data-input',
   templateUrl: './data-input.component.html',
@@ -31,18 +32,18 @@ export class DataInputComponent {
     if (this._router.getCurrentNavigation()?.extras.state?.['status']) {
       this.DataPassed =this._router.getCurrentNavigation()?.extras.state?.['data'].data;
       this.InputTasks = new FormGroup({
-        taskTitle: new FormControl(this.DataPassed.taskTitle, Validators.required),
-        taskDetail: new FormControl(this.DataPassed.taskDetail, Validators.required),
-        taskAttachment: new FormControl(''),
-        taskStarting: new FormControl(
-          this.DataPassed.taskStarting,
+        title: new FormControl(this.DataPassed.title, Validators.required),
+        detail: new FormControl(this.DataPassed.detail, Validators.required),
+        attachment: new FormControl(''),
+        startdate: new FormControl(
+          this.DataPassed.startdate,
           Validators.required
         ),
-        taskDeadline: new FormControl(
-          this.DataPassed.taskDeadline,
+        enddate: new FormControl(
+          this.DataPassed.enddate,
           Validators.required
         ),
-        taskStatus: new FormControl(this.DataPassed.taskStatus),
+        taskstatus: new FormControl(this.DataPassed.taskstatus),
       });
       this.Update = true;
       this.ButtonTittle = 'Update Task';
@@ -52,13 +53,14 @@ export class DataInputComponent {
       (Response) => (ActivatedPath = Response[0].path)
     );
     if (ActivatedPath === 'AddTasks') {
+
       this.InputTasks = new FormGroup({
-        taskTitle: new FormControl('', Validators.required),
-        taskDetail: new FormControl('', Validators.required),
-        taskAttachment: new FormControl(''),
-        taskStarting: new FormControl('', Validators.required),
-        taskDeadline: new FormControl('', Validators.required),
-        taskStatus: new FormControl(0),
+        title: new FormControl('', Validators.required),
+        detail: new FormControl('', Validators.required),
+        attachment: new FormControl(''),
+        startdate: new FormControl('', Validators.required),
+        enddate: new FormControl('', Validators.required),
+        taskstatus: new FormControl(0),
       });
       this.ButtonTittle = 'Add Task';
       this.Update = false;
@@ -70,7 +72,10 @@ export class DataInputComponent {
   }
 
   Post() {
+    const tokenData=localStorage.getItem('token')
+    const Headers=new HttpHeaders({ 'token': tokenData || ''})
     if (this.Update == true) {
+
       this.httpHandler
         .PostUpdates(
           this.InputTasks.value,
@@ -82,18 +87,18 @@ export class DataInputComponent {
         );
     } else {
       this.Data=this.InputTasks.value
-      this.Data.taskAttachment=this.img2Base64;
+      this.Data.attachment=this.img2Base64;
       this.httpHandler
-        .postTasks(this.Data)
+        .postTasks(this.Data,Headers)
         .subscribe((response: any) => {
           this.toastr.emitSuccess('Data Added Successfully');
           this.InputTasks = new FormGroup({
-            taskTitle: new FormControl('', Validators.required),
-            taskDetail: new FormControl('', Validators.required),
-            taskAttachment: new FormControl(''),
-            taskStarting: new FormControl('', Validators.required),
-            taskDeadline: new FormControl('', Validators.required),
-            taskStatus: new FormControl(0),
+            title: new FormControl('', Validators.required),
+            detail: new FormControl('', Validators.required),
+            attachment: new FormControl(''),
+            startdate: new FormControl('', Validators.required),
+            enddate: new FormControl('', Validators.required),
+            taskstatus: new FormControl(0),
           });
         });
     }

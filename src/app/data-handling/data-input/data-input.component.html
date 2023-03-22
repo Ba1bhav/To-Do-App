@@ -10,45 +10,45 @@
           style="color: red;">Fields Are Neccessary</span>
       </div>
       <div *ngIf="Update" class="form-control-col form-center">
-        <img class="image" [src]="this.DataPassed.taskAttachment">
+        <img class="image" [src]="this.DataPassed.attachment">
       </div>
       <br>
       <div class="form-control-col form-center">
-        <input type="text" placeholder="Task Title !" class="field" formControlName="taskTitle">
+        <input type="text" placeholder="Task Title !" class="field" formControlName="title">
       </div>
       <div class="form-control-col form-center">
-        <span *ngIf="InputTasksControl.taskTitle.invalid&&InputTasksControl.taskTitle.touched" class="field"
+        <span *ngIf="InputTasksControl.title.invalid&&InputTasksControl.title.touched" class="field"
           style="color: red;">Enter Valid Data</span>
       </div>
       <br>
       <div class="form-control-col form-center">
-        <textarea placeholder="Task Details " class="field" formControlName="taskDetail"></textarea>
+        <textarea placeholder="Task Details " class="field" formControlName="detail"></textarea>
       </div>
       <div class="form-control-col form-center">
-        <span *ngIf="InputTasksControl.taskDetail.invalid&&InputTasksControl.taskDetail.touched" class="field"
+        <span *ngIf="InputTasksControl.detail.invalid&&InputTasksControl.detail.touched" class="field"
           style="color: red;">Enter Valid Data</span>
       </div>
       <div class="form-control-col form-center">
-        <input type="file" class="field file" style="width: 208px;margin-top: 10px;" formControlName="taskAttachment"
+        <input type="file" class="field file" style="width: 208px;margin-top: 10px;" formControlName="attachment"
           (change)='readFileSize($event)'>
 
       </div>
       <br>
       <div class="form-control-col form-center">
         <input type="text" disabled placeholder="Starting" style="width:70px; text-align: center;">
-        <input type="date" placeholder="Start Date" class="field" formControlName="taskStarting">
+        <input type="date" placeholder="Start Date" class="field" formControlName="startdate">
       </div>
       <div class="form-control-col form-center">
-        <span *ngIf="InputTasksControl.taskStarting.invalid&&InputTasksControl.taskStarting.touched" class="field"
+        <span *ngIf="InputTasksControl.startdate.invalid&&InputTasksControl.startdate.touched" class="field"
           style="color: red;">Enter Valid Data</span>
       </div>
       <br>
       <div class="form-control-col form-center">
         <input type="text" disabled placeholder="Deadline" style="width:70px; text-align: center;">
-        <input type="date" placeholder="Deadline" class="field" formControlName="taskDeadline">
+        <input type="date" placeholder="Deadline" class="field" formControlName="enddate">
       </div>
       <div class="form-control-col form-center">
-        <span *ngIf="InputTasksControl.taskDeadline.invalid&&InputTasksControl.taskDeadline.touched" class="field"
+        <span *ngIf="InputTasksControl.enddate.invalid&&InputTasksControl.enddate.touched" class="field"
           style="color: red;">Enter Valid Data</span>
       </div>
       <br>

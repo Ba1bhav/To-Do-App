@@ -15,16 +15,16 @@
         <tr class="center" [ngClass]="editToggle[id]===1?'editEnable':'editDisable'">
         <ng-container *ngIf="editToggle[id]==0">
         <td>{{id+1}}</td>
-        <td>{{Task.taskTitle|titlecase}}</td>
-        <td>{{Task.taskDetail|titlecase}}</td>
-        <td><img class="image" alt="Not Image"  [src]="Task.taskAttachment"></td>
-        <td>{{Task.taskStarting|titlecase}}</td>
-        <td>{{Task.taskDeadline|titlecase}}</td>
+        <td>{{Task.title|titlecase}}</td>
+        <td>{{Task.detail|titlecase}}</td>
+        <td><img class="image" alt="Not Image"  [src]="Task.attachment"></td>
+        <td>{{Task.startdate|titlecase}}</td>
+        <td>{{Task.enddate|titlecase}}</td>
         <td class="center" >
           <select>
             <ng-container *ngFor="let Button of taskStatuses">
-            <option value="{{Button.value}}" *ngIf="Task.taskStatus" [selected]="Task.taskStatus===Button.value">{{Button.name}}</option>
-            <option value="{{Button.value}}" *ngIf="!Task.taskStatus&&Button.value===0" [selected]="Button.value===0">{{Button.name}}</option>
+            <option value="{{Button.value}}" *ngIf="Task.taskstatus" [selected]="Task.taskstatus===Button.value">{{Button.name}}</option>
+            <option value="{{Button.value}}" *ngIf="!Task.taskstatus&&Button.value===0" [selected]="Button.value===0">{{Button.name}}</option>
           </ng-container>
           </select></td>
         <td><button class="gears" (click)="editTasks(id)">⚙️ Edit</button>
@@ -33,14 +33,14 @@
         </ng-container>
         <ng-container *ngIf="editToggle[id]==1">
           <td class="center" >{{id+1}}</td>
-          <td class="center" ><input class="center field " type=text value="{{Task.taskTitle|titlecase}}"    (change)="dataChanged('taskTitle',$event.target,Task.taskTitle,id)"    ></td>
-          <td class="center" ><input class="center field " type=text value="{{Task.taskDetail|titlecase}}"   (change)="dataChanged('taskDetail',$event.target,Task.taskDetail,id)"  ></td>
-          <td class="center" ><input class="center field" type=date value="{{Task.taskStarting|titlecase}}"  (change)="dataChanged('taskStarting',$event.target,Task.taskStarting,id)"  ></td>
-          <td class="center" ><input class="center field" type=date value='{{Task.taskDeadline|titlecase}}'  (change)="dataChanged('taskEnding',$event.target,Task.taskDeadline,id)" ></td>
+          <td class="center" ><input class="center field " type=text value="{{Task.title|titlecase}}"    (change)="dataChanged('title',$event.target,Task.title,id)"    ></td>
+          <td class="center" ><input class="center field " type=text value="{{Task.detail|titlecase}}"   (change)="dataChanged('detail',$event.target,Task.detail,id)"  ></td>
+          <td class="center" ><input class="center field" type=date value="{{Task.startdate|titlecase}}"  (change)="dataChanged('startdate',$event.target,Task.startdate,id)"  ></td>
+          <td class="center" ><input class="center field" type=date value='{{Task.enddate|titlecase}}'  (change)="dataChanged('taskEnding',$event.target,Task.enddate,id)" ></td>
           <td class="center" >
-          <select class="center field" (change)="dataChanged('taskStatus',$event.target,Task.taskDeadline,id)">
+          <select class="center field" (change)="dataChanged('taskstatus',$event.target,Task.enddate,id)">
             <ng-container *ngFor="let Button of taskStatuses">
-            <option value="{{Button.value}}" [selected]="Task.taskStatus?Task.taskStatus===Button.value:Button.value===0">{{Button.name}}</option>
+            <option value="{{Button.value}}" [selected]="Task.taskstatus?Task.taskstatus===Button.value:Button.value===0">{{Button.name}}</option>
           </ng-container>
           </select></td>
           <td class="center" ><button class="gears" (click)="editTasks(id)">⚙️&nbsp;Close Edit</button></td>

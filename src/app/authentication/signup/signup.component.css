@@ -27,3 +27,14 @@ input[type="file"]::-webkit-file-upload-button{
   font-weight: bold;
   font-size: 40px;
 }
+.Matched{
+  border-color: green;
+
+}
+.notMatched{
+  border-color: red;
+
+}
+.signUp{
+  width: 200px;
+}

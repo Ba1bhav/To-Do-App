@@ -6,7 +6,7 @@ import { DataOutputComponent } from './data-handling/data-output/data-output.com
 import { SignupComponent } from './authentication/signup/signup.component';
 
 const routes: Routes = [
-  {path:'',component:SignupComponent},
+  {path:'signup',component:SignupComponent},
   {path:'AddTasks',component:DataInputComponent},
   {path:'update',component:DataInputComponent},
   {path:'Dashboard',component:DataOutputComponent},

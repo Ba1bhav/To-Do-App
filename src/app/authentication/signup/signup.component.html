@@ -1,3 +1,5 @@
+{{_signUpControls.password.value}}
+{{confirmationControls.confirmPassword.value}}
 <div class='form-center'>
     <form class="form" [formGroup]="SignUpForm" (ngSubmit)="Sign_Up()">
       <div form-control-row form-center class="border">
@@ -5,31 +7,53 @@
         <div class="form-control-col form-center title">Sign Up</div>
         <br>
         <div class="form-control-col form-center">
-          <span *ngIf="" class="field"
-            style="color: red;">Fields Are Neccessary</span>
+          <span *ngIf="SignUpForm.invalid&&ErrorToggle" class="field"
+            style="color: red;">Fields Are Invalid</span>
         </div>
-        <div class="form-control-col form-center">
+        <div class="form-control-col form-center" formGroupName="_signup">
           <input type="text" disabled placeholder="Username" style="width:100px; text-align: center;">
           <input type="text" placeholder="Rawat*9" class="field" formControlName="username">
         </div>
-        <br>
         <div class="form-control-col form-center">
+          <span *ngIf="_signUpControls.username.invalid&&_signUpControls.username.touched" class="field"
+            style="color: red;">Enter Valid Username</span>
+        </div>
+        <br>
+        <div class="form-control-col form-center" formGroupName="_signup">
           <input type="text" disabled placeholder="Email" style="width:100px; text-align: center;">
           <input type="email"  placeholder="test@chicmic.in" class="field" formControlName="email">
         </div>
-        <br>
         <div class="form-control-col form-center">
+          <span *ngIf="_signUpControls.email.invalid&&_signUpControls.email.touched" class="field"
+            style="color: red;">Enter Valid Email</span>
+        </div>
+        <br>
+        <div class="form-control-col form-center" formGroupName="_signup">
           <input type="text" disabled placeholder="Mobile No." style="width:100px; text-align: center;">
           <input type="text" placeholder="98xxxxxxxx" class="field" formControlName="mobile">
         </div>
-        <br>
         <div class="form-control-col form-center">
+          <span *ngIf="_signUpControls.mobile.invalid&&_signUpControls.mobile.touched" class="field"
+            style="color: red;">Enter Valid Mobile Number</span>
+        </div>
+        <br>
+        <div class="form-control-col form-center" formGroupName="_signup">
           <input type="text" disabled placeholder="Password" style="width:100px; text-align: center;">
           <input type="password" placeholder="Password" class="field" formControlName="password">
         </div>
+        <div class="form-control-col form-center">
+          <span *ngIf="_signUpControls.password.invalid&&_signUpControls.password.touched" class="field"
+            style="color: red;">Enter Password containing (A-Z a-z 0-9 symbols?)</span>
+        </div>
+        <br>
+        <div class="form-control-col form-center" formGroupName="confirmations">
+          <input type="text" disabled placeholder="Password" style="width:100px; text-align: center;">
+          <input type="password" class="field" placeholder=" Confirm Password" formControlName="confirmPassword" [style.border-color]="(confirmationControls.confirmPassword.touched)&&(confirmationControls.confirmPassword.value===_signUpControls.password.value)?'green':''">
+        </div>
         <br>
         <div class="form-control-col form-center">
-          <button class='btn btn-success' type='submit'>Sign Up</button>
+          <button *ngIf="!SignUpForm.invalid" class='btn btn-success signUp' type='submit'>Sign Up</button>
+          <button *ngIf="SignUpForm.invalid" class='btn btn-success  signUp' type='button' (click)="ErrorToggler()">Sign Up</button>
         </div>
         </div>
     </form>
