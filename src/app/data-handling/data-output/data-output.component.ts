@@ -17,16 +17,13 @@ export class DataOutputComponent {
 
   constructor(private route:Router,private toastr:ToastrService,private httpHandler:RequestsHandlerService){
    this.tableData();
+
   }
   tableData(){
     this.httpHandler.getTasks().subscribe((response:any)=>{
       this.toastr.emitSuccess('Data Fetched Successfully !')
-      this.ArrayofIds=Object.keys(response)
-      this.editToggle=Array(this.ArrayofIds.length).fill(0);
-      for(let id of this.ArrayofIds){
-        this.TasksFetched.push(response[id])
-      }
-      console.log(this.TasksFetched)
+      this.TasksFetched=response.datas
+      console.log(response.datas)
     },()=>{this.toastr.emitError('Some Error Occured !')})
   }
   dataChanged(dataType:string,valueChanged:any,previousData:any,dataId:any){
@@ -45,10 +42,9 @@ export class DataOutputComponent {
     }
     console.log(valueChanged.value)
   }
-  deleteTasks(id:any){
-    this.httpHandler.deleteTasks(this.ArrayofIds[id]).subscribe(()=>{
+  deleteTasks(id:any,_id:any){
+    this.httpHandler.deleteTasks(_id).subscribe(()=>{
       this.toastr.emitSuccess(`Successfully Deleted`)
-      this.ArrayofIds.pop(id)
       this.TasksFetched.pop(id)
     },()=>this.toastr.emitError(`Some Error Occurred !`))
   }

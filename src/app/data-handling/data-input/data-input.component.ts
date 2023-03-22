@@ -20,7 +20,7 @@ export class DataInputComponent {
   Update: boolean = false;
   Updateid:any;
   ButtonTittle: String = 'Add Task';
-  img2Base64:any;
+  imgFile:any;
   DataPassed:any;
   constructor(
     private routeManager: ActivatedRoute,
@@ -31,6 +31,7 @@ export class DataInputComponent {
     // console.log(routeManager.url.subscribe((Response)=>console.log(Response[0].path)))
     if (this._router.getCurrentNavigation()?.extras.state?.['status']) {
       this.DataPassed =this._router.getCurrentNavigation()?.extras.state?.['data'].data;
+      console.log(this.DataPassed)
       this.InputTasks = new FormGroup({
         title: new FormControl(this.DataPassed.title, Validators.required),
         detail: new FormControl(this.DataPassed.detail, Validators.required),
@@ -87,19 +88,20 @@ export class DataInputComponent {
         );
     } else {
       this.Data=this.InputTasks.value
-      this.Data.attachment=this.img2Base64;
+      this.Data.attachment=this.imgFile;
+      let data = new FormData();
+      data.append('attachment', this.Data.attachment);
+      data.append('title', this.Data.title);
+      data.append('detail', this.Data.detail);
+      data.append('startdate', this.Data.startdate);
+      data.append('enddate', this.Data.enddate);
+      data.append('taskstatus',this.Data.taskstatus)
+
       this.httpHandler
-        .postTasks(this.Data,Headers)
+        .postTasks(data,Headers)
         .subscribe((response: any) => {
           this.toastr.emitSuccess('Data Added Successfully');
-          this.InputTasks = new FormGroup({
-            title: new FormControl('', Validators.required),
-            detail: new FormControl('', Validators.required),
-            attachment: new FormControl(''),
-            startdate: new FormControl('', Validators.required),
-            enddate: new FormControl('', Validators.required),
-            taskstatus: new FormControl(0),
-          });
+          this.InputTasks.reset();
         });
     }
   }
@@ -109,13 +111,12 @@ export class DataInputComponent {
       this.toastr.emitError('File Size Exceeds');
       FileEvent.srcElement.files[0] = null;
     } else {
-      this.httpHandler.image2base64(FileEvent.srcElement.files[0]).then((response)=>{
-        this.img2Base64=response;
+        this.imgFile=FileEvent.srcElement.files[0];
         this.toastr.emitSuccess('File Validation Success');
-      })
+      }
 
     }
-  }
+  
   ErrorToggler(){
     this.ErrorToggle=true;
     setTimeout(()=>this.ErrorToggle=false,2000)
