@@ -8,6 +8,7 @@ import {
 import { RequestsHandlerService } from 'src/app/services/requests-handler.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
+import { dataUrl,tokenError } from 'src/app/utils/environment';
 @Component({
   selector: 'app-data-input',
   templateUrl: './data-input.component.html',
@@ -22,13 +23,16 @@ export class DataInputComponent {
   ButtonTittle: String = 'Add Task';
   imgFile:any;
   DataPassed:any;
+  dataUrl=dataUrl;
+  jwtTokenError=tokenError
   constructor(
     private routeManager: ActivatedRoute,
     private _router: Router,
     private toastr: ToastrService,
     private httpHandler: RequestsHandlerService
-  ) { this.Updateid=this._router.getCurrentNavigation()?.extras.state?.['data'].id;
-    // console.log(routeManager.url.subscribe((Response)=>console.log(Response[0].path)))
+  ) {
+    if(localStorage.getItem('token')){
+    this.Updateid=this._router.getCurrentNavigation()?.extras.state?.['data'].data._id;
     if (this._router.getCurrentNavigation()?.extras.state?.['status']) {
       this.DataPassed =this._router.getCurrentNavigation()?.extras.state?.['data'].data;
       console.log(this.DataPassed)
@@ -37,11 +41,11 @@ export class DataInputComponent {
         detail: new FormControl(this.DataPassed.detail, Validators.required),
         attachment: new FormControl(''),
         startdate: new FormControl(
-          this.DataPassed.startdate,
+          this.DataPassed.startdate.split('T')[0],
           Validators.required
         ),
         enddate: new FormControl(
-          this.DataPassed.enddate,
+          this.DataPassed.enddate.split('T')[0],
           Validators.required
         ),
         taskstatus: new FormControl(this.DataPassed.taskstatus),
@@ -67,6 +71,10 @@ export class DataInputComponent {
       this.Update = false;
     }
   }
+  else{
+    _router.navigateByUrl('/login')
+  }
+  }
 
   get InputTasksControl() {
     return this.InputTasks.controls;
@@ -75,11 +83,24 @@ export class DataInputComponent {
   Post() {
     const tokenData=localStorage.getItem('token')
     const Headers=new HttpHeaders({ 'token': tokenData || ''})
+    this.Data=this.InputTasks.value
+    let data = new FormData();
+    if(this.imgFile){
+    this.Data.attachment=this.imgFile;
+    data.append('attachment', this.Data.attachment);
+  }else{
+    this.Data.attachment=this.DataPassed?.attachment||''
+  }
+    data.append('title', this.Data.title);
+    data.append('detail', this.Data.detail);
+    data.append('startdate', this.Data.startdate);
+    data.append('enddate', this.Data.enddate);
+    data.append('taskstatus',this.Data.taskstatus)
     if (this.Update == true) {
 
       this.httpHandler
         .PostUpdates(
-          this.InputTasks.value,
+          data,
          this.Updateid
         )
         .subscribe(
@@ -87,21 +108,17 @@ export class DataInputComponent {
           () => this.toastr.emitError('Some Error Encountered')
         );
     } else {
-      this.Data=this.InputTasks.value
-      this.Data.attachment=this.imgFile;
-      let data = new FormData();
-      data.append('attachment', this.Data.attachment);
-      data.append('title', this.Data.title);
-      data.append('detail', this.Data.detail);
-      data.append('startdate', this.Data.startdate);
-      data.append('enddate', this.Data.enddate);
-      data.append('taskstatus',this.Data.taskstatus)
-
-      this.httpHandler
+         this.httpHandler
         .postTasks(data,Headers)
         .subscribe((response: any) => {
           this.toastr.emitSuccess('Data Added Successfully');
           this.InputTasks.reset();
+        },(error: any) => {
+          if(error?.error.error==this.jwtTokenError){
+            localStorage.removeItem('token')
+            this._router.navigateByUrl('/login')
+          }
+          this.toastr.emitError(error?.error.error);
         });
     }
   }

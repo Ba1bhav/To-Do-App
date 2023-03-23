@@ -1,6 +1,6 @@
 <table class="table table-stripped">
   <thead class="center" >
-    <th>Id</th>
+    <th>index</th>
     <th>Title</th>
     <th>Detail</th>
     <th>Attachment</th>
@@ -11,41 +11,36 @@
   </thead>
   <tbody>
     <ng-container *ngIf="TasksFetched">
-       <ng-container  *ngFor="let Task of TasksFetched; let id=index">
-        <tr class="center" [ngClass]="editToggle[id]===1?'editEnable':'editDisable'">
-        <td>{{id+1}}</td>
+       <ng-container  *ngFor="let Task of TasksFetched; let index=index">
+        <tr class="center" [ngClass]="editToggle[index]===1?'editEnable':'editDisable'">
+        <td>{{index+1}}</td>
         <td>{{Task.title|titlecase}}</td>
         <td>{{Task.detail|titlecase}}</td>
-        <td><img class="image" alt="Not Image"  [src]="+Task.attachment"></td>
+        <td><img class="image" alt="Not Image"  [src]="dataUrl+Task.attachment"></td>
         <td>{{Task.startdate|titlecase|date}}</td>
         <td>{{Task.enddate|titlecase|date}}</td>
         <td class="center" >
-          <select>
+          <ng-container *ngIf="editToggle[index]==0">
+          <select class="center field">
             <ng-container *ngFor="let Button of taskStatuses">
-            <option value="{{Button.value}}" *ngIf="Task.taskStatus" [selected]="Task.taskStatus===Button.value">{{Button.name}}</option>
-            <option value="{{Button.value}}" *ngIf="!Task.taskStatus&&Button.value===0" [selected]="Button.value===0">{{Button.name}}</option>
+            <option value="{{Button.value}}" *ngIf="Task.taskstatus===Button.value" [selected]="Task.taskstatus===Button.value">{{Button.name}}</option>
           </ng-container>
-          </select></td>
-        <td><button class="gears" (click)="editTasks(id)">⚙️ Edit</button>
-            <button style="font-weight: bold;" class="gears" (click)="redirectRoute(id)">Edit</button><span>&nbsp;</span>
-            <button class="gears" (click)="deleteTasks(id,Task._id)" style="font-weight: bold;">Delete</button></td>
-        <ng-container *ngIf="editToggle[id]==1">
-          <td class="center" >{{id+1}}</td>
-          <td class="center" ><input class="center field " type=text value="{{Task.title|titlecase}}"    (change)="dataChanged('title',$event.target,Task.title,id)"    ></td>
-          <td class="center" ><input class="center field " type=text value="{{Task.detail|titlecase}}"   (change)="dataChanged('detail',$event.target,Task.detail,id)"  ></td>
-          <td class="center" ><input class="center field" type=date value="{{Task.startdate|titlecase}}"  (change)="dataChanged('startdate',$event.target,Task.startdate,id)"  ></td>
-          <td class="center" ><input class="center field" type=date value='{{Task.enddate|titlecase}}'  (change)="dataChanged('taskEnding',$event.target,Task.enddate,id)" ></td>
-          <td class="center" >
-          <select class="center field" (change)="dataChanged('taskStatus',$event.target,Task.enddate,id)">
-            <ng-container *ngFor="let Button of taskStatuses">
-            <option value="{{Button.value}}" [selected]="Task.taskStatus?Task.taskStatus===Button.value:Button.value===0">{{Button.name}}</option>
-          </ng-container>
-          </select></td>
-          <td class="center" ><button class="gears" (click)="editTasks(id)">⚙️&nbsp;Close Edit</button></td>
+
+          </select>
         </ng-container>
+          <ng-container *ngIf="editToggle[index]==1">
+            <select class="center field" (change)="statusChanged($event.target,Task._id,index)">
+              <ng-container *ngFor="let Button of taskStatuses">
+              <option value="{{Button.value}}" [selected]="Task.taskstatus?Task.taskstatus===Button.value:Button.value===0">{{Button.name}}</option>
+            </ng-container>
+            </select>
+          </ng-container></td>
+        <td><button class="gears" (click)="editTasks(index)">⚙️ Status</button>
+            <button style="font-weight: bold;" class="gears" (click)="redirectRoute(index,Task._id)">Edit</button><span>&nbsp;</span>
+            <button class="gears" (click)="deleteTasks(index,Task._id)" style="font-weight: bold;">Delete</button></td>
+
         </tr>
         </ng-container>
-
     </ng-container>
   </tbody>
 </table>

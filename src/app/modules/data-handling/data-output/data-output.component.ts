@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { ToastrService } from 'src/app/services/toastr.service';
-import { RequestsHandlerService } from 'src/app/services/requests-handler.service';
+import { RequestsHandlerService} from 'src/app/services/requests-handler.service';
 import { taskStatusButtons } from '../../../utils/Buttons';
-import { FormControl,FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { dataUrl} from 'src/app/utils/environment';
+
 @Component({
   selector: 'app-data-output',
   templateUrl: './data-output.component.html',
@@ -14,9 +15,14 @@ export class DataOutputComponent {
   TasksFetched:any=[];
   ArrayofIds:any=[];
   editToggle:any=[];
-
+  dataUrl=dataUrl
   constructor(private route:Router,private toastr:ToastrService,private httpHandler:RequestsHandlerService){
-   this.tableData();
+   if(localStorage.getItem('token')){
+    this.tableData();
+   }
+   else{
+    route.navigateByUrl('/login')
+   }
 
   }
   tableData(){
@@ -24,28 +30,27 @@ export class DataOutputComponent {
       this.toastr.emitSuccess('Data Fetched Successfully !')
       this.TasksFetched=response.datas
       console.log(response.datas)
+      this.editToggle=Array(this.TasksFetched.length).fill(0)
     },()=>{this.toastr.emitError('Some Error Occured !')})
   }
-  dataChanged(dataType:string,valueChanged:any,previousData:any,dataId:any){
-    if(valueChanged.value.length<1||valueChanged.value===null||!valueChanged.value){
-      this.toastr.emitError('Field can\'t be Empty')
-      valueChanged.value=previousData;
-    }
-    else{
-      this.httpHandler.PostUpdates(valueChanged.value,this.ArrayofIds[dataId]).subscribe((response:any)=>{
-        this.toastr.emitSuccess(`Data of ${dataType} Successfully !`)
-        console.log(response)
+  statusChanged(valueChanged:any,dataId:any,localIndex:number){
+
+    const data=new FormData()
+    data.append('taskstatus',valueChanged.value)
+      this.httpHandler.PostUpdates(data,dataId).subscribe((response:any)=>{
+        this.toastr.emitSuccess(`Status Updated Successfully !`)
+        this.TasksFetched[localIndex].taskstatus=Number(valueChanged.value);
+
       },
       ()=>this.toastr.emitError(`Some Error Occurred !`)
       )
 
     }
-    console.log(valueChanged.value)
-  }
-  deleteTasks(id:any,_id:any){
+
+  deleteTasks(index:any,_id:any){
     this.httpHandler.deleteTasks(_id).subscribe(()=>{
       this.toastr.emitSuccess(`Successfully Deleted`)
-      this.TasksFetched.pop(id)
+      this.TasksFetched.splice(index,1)
     },()=>this.toastr.emitError(`Some Error Occurred !`))
   }
   editTasks(id:number){
@@ -56,7 +61,7 @@ export class DataOutputComponent {
       this.editToggle[id]=1
    }
   }
-  redirectRoute(id:any){
-    this.route.navigateByUrl('/update',{state:{status:true,data:{data:this.TasksFetched[id],id:this.ArrayofIds[id]}}});
+  redirectRoute(dataIndex:any,_id:any){
+    this.route.navigateByUrl('/update',{state:{status:true,data:{data:this.TasksFetched[dataIndex],id:_id}}});
   }
 }
