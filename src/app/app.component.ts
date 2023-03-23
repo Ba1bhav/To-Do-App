@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ToastrService } from './toastr.service';
+import { ToastrService } from './services/toastr.service';
 interface messageInterface{
   'success':boolean;
   'message':string;

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {Validators,FormBuilder, AbstractControl} from '@angular/forms';
 import { Router } from '@angular/router';
-import { RequestsHandlerService } from 'src/app/requests-handler.service';
-import { ToastrService } from 'src/app/toastr.service';
+import { RequestsHandlerService } from 'src/app/services/requests-handler.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

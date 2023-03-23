@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { ToastrService } from 'src/app/toastr.service';
-import { RequestsHandlerService } from 'src/app/requests-handler.service';
-import { taskStatusButtons } from 'src/assets/Buttons';
+import { ToastrService } from 'src/app/services/toastr.service';
+import { RequestsHandlerService } from 'src/app/services/requests-handler.service';
+import { taskStatusButtons } from '../../../utils/Buttons';
 import { FormControl,FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 @Component({

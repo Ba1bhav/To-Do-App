@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {Validators,FormBuilder, AbstractControl} from '@angular/forms';
-import { RequestsHandlerService } from 'src/app/requests-handler.service';
-import { ToastrService } from 'src/app/toastr.service';
+import { RequestsHandlerService } from 'src/app/services/requests-handler.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-signup',

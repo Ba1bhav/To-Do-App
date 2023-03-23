@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { ToastrService } from 'src/app/toastr.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 import {
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { RequestsHandlerService } from 'src/app/requests-handler.service';
+import { RequestsHandlerService } from 'src/app/services/requests-handler.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 @Component({
@@ -116,7 +116,7 @@ export class DataInputComponent {
       }
 
     }
-  
+
   ErrorToggler(){
     this.ErrorToggle=true;
     setTimeout(()=>this.ErrorToggle=false,2000)
